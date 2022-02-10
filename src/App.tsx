@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import React from "react";
+// import { Button, Card } from "antd";
+// import logo from "./logo.svg";
+import "./App.css";
+// import Login from "./components/pages/Login";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import SelectProduct from "./components/pages/SelectProduct";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route>
+            {/* <Route index element={<Login />} /> */}
+            <Route index element={<SelectProduct />} />
+          </Route>
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
