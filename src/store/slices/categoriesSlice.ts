@@ -1,13 +1,13 @@
 import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
+import Category from "../../types/Category";
+import { fetchCategories } from "../thunks/fetchCategories";
 
 type CategorySliceState = {
-  current?: string;
-  data?: Category[];
-};
-type Category = {
-  name: string;
-  key: string;
+  current?: number;
+  data: Category[];
+  error: string | null;
+  status: "loading" | "idle";
 };
 const categoriesSlice = createSlice<
   CategorySliceState,
@@ -15,15 +15,21 @@ const categoriesSlice = createSlice<
 >({
   name: "categories",
   initialState: {
-    data: [
-      { name: "Category 1", key: "c1" },
-      { name: "Category 2", key: "c2" },
-      { name: "Category 3", key: "c3" },
-      { name: "Category 4", key: "c4" },
-      { name: "Category 5", key: "c5" },
-    ],
+    data: [],
+    status: "idle",
+    error: null,
   },
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchCategories.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    });
+    builder.addCase(fetchCategories.fulfilled, (state, { payload }) => {
+      state.status = "idle";
+      state.data = [...payload];
+    });
+  },
 });
 
 export const selectCategories = (state: RootState) => state.categories.data;

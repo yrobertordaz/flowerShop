@@ -1,8 +1,11 @@
-import { SettingFilled, UserOutlined } from "@ant-design/icons";
-import { Row, Col, Button, Menu, Card, Typography } from "antd";
+import { Menu, Layout } from "antd";
 
-import React from "react";
-import { useAppSelector } from "../../store/hook";
+import React, { useEffect } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { fetchProducts } from "../../store/thunks/fetchProducts";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
+import { fetchCategories } from "../../store/thunks/fetchCategories";
+const { Header, Content, Footer, Sider } = Layout;
 
 type SelectProductProps = {
   category?: string;
@@ -10,39 +13,46 @@ type SelectProductProps = {
 const SelectProduct: React.FC<SelectProductProps> = (
   props: SelectProductProps
 ) => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchProducts());
+  }, []);
   const categories = useAppSelector((state) => state.categories.data);
   return (
-    <div>
-      <Row gutter={8}>
-        <Col xs={3}>
-          <Menu
-            style={{
-              display: "flex",
-              justifyItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            {categories &&
-              categories.map((category: string, index) => (
-                <Menu.Item key={index}>{category}</Menu.Item>
-              ))}
-          </Menu>
-        </Col>
-        <Col xs={12} style={{ minHeight: 400 }}>
-          <div style={{ border: "1px solid" }}></div>
-        </Col>
-        <Col xs={9}>
-          <div>
-            <div>
-              <Typography.Text>Cajera</Typography.Text>
-              <UserOutlined style={{ fontSize: "18pt" }} />
-              <SettingFilled style={{ fontSize: "18pt" }} />
-            </div>
-            <Card style={{ border: "1px solid" }}></Card>
-          </div>
-        </Col>
-      </Row>
-    </div>
+    <Layout style={{ height: "99vh" }}>
+      <Header className="header">
+        <div className="logo" />
+      </Header>
+      <Content>
+        <Layout
+          className="site-layout-background"
+          style={{ padding: "24px 0", background: "#fff", height: "100%" }}
+        >
+          <Sider width={200}>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["sub1"]}
+              style={{ height: "100%" }}
+            >
+              {categories &&
+                categories.map((category, index, array) => (
+                  <Menu.Item key={category.id}>
+                    <Link to={`/category/${category.id}`}>{category.name}</Link>
+                  </Menu.Item>
+                ))}
+            </Menu>
+          </Sider>
+          <Content style={{ padding: "0 24px", height: "100%" }}>
+            <Outlet />
+          </Content>
+        </Layout>
+      </Content>
+      <Footer style={{ textAlign: "center" }}>
+        FlowerShop ©2022 Created by Yansel Robert
+      </Footer>
+    </Layout>
   );
 };
 export default SelectProduct;

@@ -1,9 +1,10 @@
 {
   "categories": [
-    { "key": 0, "name": "Flores" },
-    { "key": 1, "name": "Postales" },
-    { "key": 2, "name": "Arreglos Florales" },
-    { "key": 3, "name": "Bolsas de Regalo" }
+    { "id": 0, "name": "Flores" },
+    { "id": 1, "name": "Postales" },
+    { "id": 2, "name": "Arreglos Florales" },
+    { "id": 3, "name": "Bolsas de Regalo" }
   ],
-  "products": [{ "name": "Gladiolo", "price": 32.5, "categoryId": 0 }]
+  "products": [{ "name": "Gladiolo", "price": 32.5, "categoryId": 0 }],
+  "requests": []
 }

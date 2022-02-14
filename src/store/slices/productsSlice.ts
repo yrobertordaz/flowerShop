@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  PayloadAction,
-  SliceCaseReducers,
-} from "@reduxjs/toolkit";
+import { createSlice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { fetchProducts } from "../thunks/fetchProducts";
 
@@ -13,7 +9,9 @@ type ProductsSliceState = {
 };
 
 type Product = {
+  name: string;
   price: number;
+  categoryId: number;
 };
 
 const productsSlice = createSlice<
